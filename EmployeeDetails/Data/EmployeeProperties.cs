@@ -1,13 +1,12 @@
-namespace BlazorApp1.Data
+namespace EmployeeDetails.Data
 {
     public class EmployeeProperties
     {
-        //no need for a setter in this user story
-        public String? Name { get; }
+        
+        public String? Name { get; set; }
 
-        public String? Position { get; }
+        public String? Position { get; set; }
 
-        //to be changed
-        public String? Skills { get; }
+        public String? Skills { get; set; }
     }
 }

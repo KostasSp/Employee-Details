@@ -4,12 +4,15 @@
 
 @using EmployeeDetails.Data
 @inject WeatherForecastService ForecastService
+@inject EmployeePropertiesService EmployeesService
+@inject HttpClient http
+
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (employees == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,20 +21,18 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Skills</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var employee in employees)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.Position</td>
+                    <td>@employee.Skills</td>
                 </tr>
             }
         </tbody>
@@ -39,10 +40,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IEnumerable<EmployeeProperties> employees;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>("https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json");
     }
 }
