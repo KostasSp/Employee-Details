@@ -3,7 +3,6 @@
 <PageTitle>Weather forecast</PageTitle>
 
 @using EmployeeDetails.Data
-@inject WeatherForecastService ForecastService
 @inject EmployeePropertiesService EmployeesService
 @inject HttpClient http
 
@@ -39,7 +38,6 @@ else
     private IEnumerable<EmployeeProperties> employees;
     private IEnumerable<EmployeeProperties> result;
     private string empPosition = "";
-    //List<EmployeeFields> employees = new List<EmployeeFields>();
 
     [Parameter]
     public string employeePosition { get; set; } = "";
