@@ -7,11 +7,6 @@
 @inject EmployeePropertiesService EmployeesService
 @inject HttpClient http
 
-
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from a service.</p>
-
 @if (employees == null)
 {
     <p><em>Loading...</em></p>
@@ -27,7 +22,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var employee in employees)
+            @foreach (var employee in result)
             {
                 <tr>
                     <td>@employee.Name</td>
@@ -40,10 +35,23 @@ else
 }
 
 @code {
+    private string url = "https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json";
     private IEnumerable<EmployeeProperties> employees;
+    private IEnumerable<EmployeeProperties> result;
+    private string empPosition = "";
+    //List<EmployeeFields> employees = new List<EmployeeFields>();
+
+    [Parameter]
+    public string employeePosition { get; set; } = "";
+
+    private void setEmployeePosition()
+    {
+        empPosition = employeePosition;
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>("https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json");
+        employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>(url);
+        result = employees.Where(empl => empl.Position == $"{employeePosition}");
     }
 }
