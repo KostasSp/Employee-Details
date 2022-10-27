@@ -1,8 +1,8 @@
 ﻿@using EmployeeDetails.Data
 @*dependency injection, following SOLID principles*@
-@inject EmployeePropertiesService EmployeesService
 @inject HttpClient http
 
+@*loading message until data is fetched from the endpoint*@
 @if (employees == null)
 {
     <p><em>Loading...</em></p>
@@ -18,7 +18,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @*filtered employees displayed to their respective pages*@
+            @*filtered employees are displayed to their respective pages*@
             @foreach (var employee in result)
             {
                 <tr>
@@ -32,11 +32,11 @@ else
 }
 
 @code {
-    private string url = "https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json";
+    private string URI = "https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json";
     private IEnumerable<EmployeeProperties>? employees;
     private IEnumerable<EmployeeProperties>? result;
     private string empPosition = "";
-    
+
     //making use of component parameters to avoid code duplication
     [Parameter]
     public string employeePosition { get; set; } = "";
@@ -49,8 +49,14 @@ else
     //perform GET request, and filter the data based on employee position
     protected override async Task OnInitializedAsync()
     {
-        employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>(url);
-        result = employees.Where(empl => empl.Position == $"{employeePosition}");
+        try 
+        {
+            employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>(URI);
+        } 
+        catch (Exception ex) 
+        {
+            Console.WriteLine("Error retrieving data from API: " + ex.Message);
+        }
+        result = employees?.Where(empl => empl.Position == $"{employeePosition}");
     }
-
 }
