@@ -1,6 +1,6 @@
 ﻿@page "/fetchdata"
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Fetch Employee Data</PageTitle>
 
 @using EmployeeDetails.Data
 @inject EmployeePropertiesService EmployeesService
@@ -35,8 +35,8 @@ else
 
 @code {
     private string url = "https://developinterviewstorage.blob.core.windows.net/developinterviewcont/Employees.json";
-    private IEnumerable<EmployeeProperties> employees;
-    private IEnumerable<EmployeeProperties> result;
+    private IEnumerable<EmployeeProperties>? employees;
+    private IEnumerable<EmployeeProperties>? result;
     private string empPosition = "";
 
     [Parameter]
