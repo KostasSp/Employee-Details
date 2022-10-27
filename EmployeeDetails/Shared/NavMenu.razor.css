@@ -1,0 +1,18 @@
+.nav-item {
+    padding-bottom: 8px;
+}
+
+.nav-item:hover {
+    text-decoration: underline black;
+}
+
+.home-message {
+    background-color: red;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler {
+        display: none;
+    }
+}
+

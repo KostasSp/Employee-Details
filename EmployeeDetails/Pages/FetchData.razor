@@ -1,8 +1,5 @@
-﻿@page "/fetchdata"
-
-<PageTitle>Fetch Employee Data</PageTitle>
-
-@using EmployeeDetails.Data
+﻿@using EmployeeDetails.Data
+@*dependency injection, following SOLID principles*@
 @inject EmployeePropertiesService EmployeesService
 @inject HttpClient http
 
@@ -21,6 +18,7 @@ else
             </tr>
         </thead>
         <tbody>
+            @*filtered employees displayed to their respective pages*@
             @foreach (var employee in result)
             {
                 <tr>
@@ -38,7 +36,8 @@ else
     private IEnumerable<EmployeeProperties>? employees;
     private IEnumerable<EmployeeProperties>? result;
     private string empPosition = "";
-
+    
+    //making use of component parameters to avoid code duplication
     [Parameter]
     public string employeePosition { get; set; } = "";
 
@@ -47,9 +46,11 @@ else
         empPosition = employeePosition;
     }
 
+    //perform GET request, and filter the data based on employee position
     protected override async Task OnInitializedAsync()
     {
         employees = await http.GetFromJsonAsync<IEnumerable<EmployeeProperties>>(url);
         result = employees.Where(empl => empl.Position == $"{employeePosition}");
     }
+
 }
