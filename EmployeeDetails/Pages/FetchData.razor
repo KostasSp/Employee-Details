@@ -46,7 +46,13 @@ else
         empPosition = employeePosition;
     }
 
-    //perform GET request, and filter the data based on employee position
+    //filter the data based on employee position
+    public void filterData(IEnumerable<EmployeeProperties> data) 
+    {
+        result = data.Where(empl => empl.Position == $"{employeePosition}");
+    }
+
+    //perform GET request
     protected override async Task OnInitializedAsync()
     {
         try 
@@ -57,6 +63,6 @@ else
         {
             Console.WriteLine("Error retrieving data from API: " + ex.Message);
         }
-        result = employees?.Where(empl => empl.Position == $"{employeePosition}");
+        filterData(employees);
     }
 }
